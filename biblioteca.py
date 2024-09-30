@@ -1,30 +1,14 @@
 
-import math
 import re
-import time
 
 
-class cronometro:
-    # init geralmeente e usado para definir atributos iniciais de uma instancia, pense que aqui e onde voce vai configurar a classe..
-    def __init__(self):
-        self.ini = 0
-        self.end = 0
-
-    def inicio(self):
-        self.ini = time.time()
-
-    def fim(self):
-        self.end = time.time()
-        tempo_total = self.end - self.ini
-        print(f"Tempo de execução: {tempo_total} segundos")
-
-
+# fiz esssa função para que possa sempre selecionar um objeto dentro de uma lista atravez do terminal acredito que ajudara no debuggin e outras coisas
 def select_iten(lista, title="chose an element of list: "):
     print(title)
     for i, e in enumerate(lista):
         print(f"{i+1}- {e}")
 
-    while True:
+    while True:  # utilizei um tratamento de erro para evitar entradas indesejadas
         chs = input(title)
         try:
             chs = int(chs)
@@ -49,66 +33,30 @@ def find_num():
     # aqui o e printado o numero da tabela ascii
 
 
-class Solution(object):
-    def isAnagram(self, s, t):
-        """
-        :type s: str
-        :type t: str
-        :rtype: bool
-        """
-        # o desafio se trata diser se duas strings sao um anagrama ou nao
-        if len(s) != len(t):  # logo de primeira se nao for do mesmo tamanho ja pode dizer que nao funciona
-            return False
+def isAnagram(self, s, t):
+    """
+    :type s: str
+    :type t: str
+    :rtype: bool
+    """
+    # o desafio se trata diser se duas strings sao um anagrama ou nao
+    if len(s) != len(t):  # logo de primeira se nao for do mesmo tamanho ja pode dizer que nao funciona
+        return False
 
-        # cria uma lista de 26 zeros, o que siguinifica que ele ta pegando a diferença entre a ate z o as letras do alfabet..
-        freq = [0] * 26
+    # cria uma lista de 26 zeros, o que siguinifica que ele ta pegando a diferença entre a ate z o as letras do alfabet..
+    freq = [0] * 26
 
-        for i in range(len(s)):  # define de 0 ate 7, entao nao precisa definir o ponto de ininico no for, se for passado qualquer valor ele vai de 0 ate o valor
-            # aqui vai pegar a posicao da letra no alfabeto e marcar com posivo nos dizendo que a letra esta presente na string
-            freq[ord(s[i]) - ord('a')] += 1
-            # no caso como aqui e um desafio de saber se e um anagrama ou nao ele vai pegar a outra string e marca com negativo para que os dados se anulem indicando que a string tem as mesmas letras so que em ordens deiferentes
-            freq[ord(t[i]) - ord('a')] -= 1
-
-        for i in range(len(freq)):
-            if freq[i] != 0:
-                return False
-
-        return True
-
-
-def is_letter(char):
-    return char.isalpha()
-
-
-def looks_like(str1, str2):
-    freq = [0] * 27  # Henrique mandou atulizar essa bagaça pra ter ç
-
-    var = 0
-    for i in range(len(str1)):
-        if is_letter(str1[i]):
-            freq[ord(str1[i]) - ord('a')] += 1
-        elif ord(str1[i]) == ord(' '):
-            freq[26] += 1
-
-    for i in range(len(str2)):
-        if is_letter(str2[i]):
-            freq[ord(str2[i]) - ord('a')] -= 1
-        elif ord(str2[i]) == ord(' '):
-            freq[26] -= 1
+    for i in range(len(s)):  # define de 0 ate 7, entao nao precisa definir o ponto de ininico no for, se for passado qualquer valor ele vai de 0 ate o valor
+        # aqui vai pegar a posicao da letra no alfabeto e marcar com posivo nos dizendo que a letra esta presente na string
+        freq[ord(s[i]) - ord('a')] += 1
+        # no caso como aqui e um desafio de saber se e um anagrama ou nao ele vai pegar a outra string e marca com negativo para que os dados se anulem indicando que a string tem as mesmas letras so que em ordens deiferentes
+        freq[ord(t[i]) - ord('a')] -= 1
 
     for i in range(len(freq)):
-        p_freq = freq[i] ** 2
-        p_freq = math.sqrt(p_freq)
+        if freq[i] != 0:
+            return False
 
-        var += p_freq
-
-    var = var/2
-
-    similarity = (len(str1) - var) / len(str1)
-    similarity *= 100
-    return similarity
-
-# provavelment um test
+    return True
 
 
 def listas_bi():
@@ -135,8 +83,7 @@ def editando_strings(lista_strings, desejado):
     print(lista_strings)
 
 
-def tipo_da_string():
-    var = 'com2 de pix'
+def tipo_da_string(var):
 
     print(var.isalnum())
     print(var.isalpha())
@@ -144,8 +91,6 @@ def tipo_da_string():
     print(var.isdigit())
     print(var.isascii())
     print(var.isspace())
-    var = var.split('/')
-    print(var)
 
 
 def encontrando_complemento_em_listas(nums, target):
@@ -158,38 +103,6 @@ def encontrando_complemento_em_listas(nums, target):
         numMap[nums[i]] = i
 
     return []
-
-
-# Usando classes e self
-def aprendendo_classes():
-    class Retangulo:
-        # init geralmeente e usado para definir atributos iniciais de uma instancia, pense que aqui e onde voce vai configurar a classe..
-        def __init__(self, altura, largura):
-            self.altura = altura
-            self.largura = largura
-
-        def calcular_area(self):
-            return self.altura * self.largura
-
-        def calcular_perimetro(self):
-            return 2 * (self.altura + self.largura)
-
-    # Criando uma instância da classe Retangulo
-    retangulo = Retangulo(5, 10)
-
-    # Usando os métodos da classe
-    area = retangulo.calcular_area()
-    perimetro = retangulo.calcular_perimetro()
-
-    print("Área do retângulo:", area)
-    print("Perímetro do retângulo:", perimetro)
-
-# apresenta itens de uma lista
-
-
-def interface(lista):
-    for i, e in enumerate(lista):
-        print(f" {i + 1} - {e}")
 
 
 # comparando tamplates
@@ -228,12 +141,24 @@ def frases(lista):
 
 
 def tratamento_de_erro():
-    while True:  # alem de ser de simular um do while
+    while True:
         nota = input(f"digite nota: ")
-        try:
+        try:  # aqui e simulado
             nota = float(nota)
             if nota < 0 or nota > 10:
                 raise ValueError
             break
         except ValueError:
             print("nota invalida tente novamente")
+
+
+def func_list(*args):  # o simbolo estrela em termos mais tecnicos e um parmetro variavel
+    lista = []
+    # entao a lista vai recebelos aqui, extend e usado para fazer uma copia dos valores...
+    for i in args:
+        lista.append(i.__name__)
+
+    iten = select_iten(lista, "listas de funções:")
+    # variavel ira se igualar ao idice que coporta o metodo entao ela se torna a função
+    funcao_exe = iten
+    funcao_exe()  # executando o metodo selecionado.
