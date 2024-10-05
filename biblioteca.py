@@ -1,8 +1,10 @@
 
 import re
+import ast
+import inspect
 
 
-# fiz esssa função para que possa sempre selecionar um objeto dentro de uma lista atravez do terminal acredito que ajudara no debuggin e outras coisas
+#auxiliar no debugging com listas de elementos executaveis
 def select_iten(lista, title="chose an element of list: "):
     print(title)
     for i, e in enumerate(lista):
@@ -22,15 +24,6 @@ def select_iten(lista, title="chose an element of list: "):
             print("fora do index")
 
     return iten
-
-
-def find_num():
-
-    for i in range(48, 58):
-        crc = chr(i)
-        print(crc)
-
-    # aqui o e printado o numero da tabela ascii
 
 
 def isAnagram(self, s, t):
@@ -58,17 +51,6 @@ def isAnagram(self, s, t):
 
     return True
 
-
-def listas_bi():
-    list1 = [['nome', 'sexo', 'idade']]
-
-    for i in range(4):
-        list2 = ['cavalo', 'farm', 'job']
-        list1.append(list2)
-
-    print(list1)
-
-
 def editando_strings(lista_strings, desejado):
 
     # Convertendo a string em uma lista de caracteres para modificar individualmente
@@ -82,7 +64,7 @@ def editando_strings(lista_strings, desejado):
 
     print(lista_strings)
 
-
+#entender em que tipo de dado a varival se encaixa
 def tipo_da_string(var):
 
     print(var.isalnum())
@@ -111,6 +93,8 @@ def comparar_formato(string, formato):
         return False
 
     for char, pattern in zip(string, formato):
+        #se  o caractere for igual ao padrão, continua
+
         if pattern == 'n' and not char.isdigit():
             return False
         if pattern == 'l' and not char.isalpha():
@@ -140,7 +124,7 @@ def frases(lista):
     return lista_strings
 
 
-def tratamento_de_erro():
+def tratamento_de_erro():#apenas um exemplo de tratamento de erro
     while True:
         nota = input(f"digite nota: ")
         try:  # aqui e simulado
@@ -151,14 +135,44 @@ def tratamento_de_erro():
         except ValueError:
             print("nota invalida tente novamente")
 
+def pegar_globais():
+    # Obtém o frame chamador (o ambiente de execução do script que está chamando a função)
+    frame_chamador = inspect.currentframe().f_back
+    
+    # Pega o dicionário de variáveis globais do chamador
+    globais = frame_chamador.f_globals
+    
+    return globais
 
-def func_list(*args):  # o simbolo estrela em termos mais tecnicos e um parmetro variavel
-    lista = []
-    # entao a lista vai recebelos aqui, extend e usado para fazer uma copia dos valores...
-    for i in args:
-        lista.append(i.__name__)
+def exe_oneof(lista):
+    try:
+        iten = select_iten(lista, "listas de funções:")
+        
+        _global = pegar_globais()
+        funcao_exe = _global.get(iten)
 
-    iten = select_iten(lista, "listas de funções:")
-    # variavel ira se igualar ao idice que coporta o metodo entao ela se torna a função
-    funcao_exe = iten
-    funcao_exe()  # executando o metodo selecionado.
+        if callable(funcao_exe):#verifica se é possivel executar
+            funcao_exe() 
+        else:
+            print(f"A função '{iten}' não foi encontrada.")
+    except TypeError:
+        print("verififique se passou um segundo parametro globals, deve passar uma variavel que contenha as globals()")
+
+
+def listar_funcoes(arquivo):
+    with open(arquivo, "r", encoding="utf-8") as file:
+        codigo_fonte = file.read()#retorna o conteudo escrito
+
+    
+    # Analisar a árvore sintática do código-fonte
+    arvore = ast.parse(codigo_fonte)
+    
+    # Iterar pelos nós da árvore e verificar se são funções
+    funcoes = [n.name for n in ast.walk(arvore) if isinstance(n, ast.FunctionDef)]
+
+    return funcoes
+
+nome_do_arquivo = "biblioteca.py"
+funcoes = listar_funcoes(nome_do_arquivo)
+print(funcoes)
+exe_oneof(funcoes)
