@@ -4,7 +4,7 @@ import ast
 import inspect
 
 
-#auxiliar no debugging com listas de elementos executaveis
+# auxiliar no debugging com listas de elementos executaveis
 def select_iten(lista, title="chose an element of list: "):
     print(title)
     for i, e in enumerate(lista):
@@ -24,6 +24,32 @@ def select_iten(lista, title="chose an element of list: "):
             print("fora do index")
 
     return iten
+
+
+def spliter(st, simbol, tipo, times=float('inf')):
+    # ele recebe de entrad a string o simbulo e o tipo de slipter e a quantidade de vezes que que queres dividir ou recortar
+
+    if tipo == "divide":
+        return st.split(simbol, times)
+
+    elif tipo == "select":
+        idx2 = -1
+        lista = []
+        qt = 0
+        while qt < times:
+            # Começa a procurar do próximo caractere
+            idx1 = st.find(simbol, idx2 + 1)
+            # Começa a procurar do próximo caractere
+            idx2 = st.find(simbol, idx1 + 1)
+            if idx1 != -1 and idx2 != -1:
+                # evitar que o caractere seja incluido na lista
+                idx1 = idx1+len(simbol)
+                lista.append(st[idx1:idx2])
+
+            if idx1 == -1 or idx2 == -1:
+                break
+            qt += 1
+        return lista
 
 
 def isAnagram(self, s, t):
@@ -51,6 +77,7 @@ def isAnagram(self, s, t):
 
     return True
 
+
 def editando_strings(lista_strings, desejado):
 
     # Convertendo a string em uma lista de caracteres para modificar individualmente
@@ -64,7 +91,9 @@ def editando_strings(lista_strings, desejado):
 
     print(lista_strings)
 
-#entender em que tipo de dado a varival se encaixa
+# entender em que tipo de dado a varival se encaixa
+
+
 def tipo_da_string(var):
 
     print(var.isalnum())
@@ -93,7 +122,7 @@ def comparar_formato(string, formato):
         return False
 
     for char, pattern in zip(string, formato):
-        #se  o caractere for igual ao padrão, continua
+        # se  o caractere for igual ao padrão, continua
 
         if pattern == 'n' and not char.isdigit():
             return False
@@ -124,7 +153,7 @@ def frases(lista):
     return lista_strings
 
 
-def tratamento_de_erro():#apenas um exemplo de tratamento de erro
+def tratamento_de_erro():  # apenas um exemplo de tratamento de erro
     while True:
         nota = input(f"digite nota: ")
         try:  # aqui e simulado
@@ -135,24 +164,26 @@ def tratamento_de_erro():#apenas um exemplo de tratamento de erro
         except ValueError:
             print("nota invalida tente novamente")
 
+
 def pegar_globais():
     # Obtém o frame chamador (o ambiente de execução do script que está chamando a função)
     frame_chamador = inspect.currentframe().f_back
-    
+
     # Pega o dicionário de variáveis globais do chamador
     globais = frame_chamador.f_globals
-    
+
     return globais
+
 
 def exe_oneof(lista):
     try:
         iten = select_iten(lista, "listas de funções:")
-        
+
         _global = pegar_globais()
         funcao_exe = _global.get(iten)
 
-        if callable(funcao_exe):#verifica se é possivel executar
-            funcao_exe() 
+        if callable(funcao_exe):  # verifica se é possivel executar
+            funcao_exe()
         else:
             print(f"A função '{iten}' não foi encontrada.")
     except TypeError:
@@ -161,16 +192,17 @@ def exe_oneof(lista):
 
 def listar_funcoes(arquivo):
     with open(arquivo, "r", encoding="utf-8") as file:
-        codigo_fonte = file.read()#retorna o conteudo escrito
+        codigo_fonte = file.read()  # retorna o conteudo escrito
 
-    
     # Analisar a árvore sintática do código-fonte
     arvore = ast.parse(codigo_fonte)
-    
+
     # Iterar pelos nós da árvore e verificar se são funções
-    funcoes = [n.name for n in ast.walk(arvore) if isinstance(n, ast.FunctionDef)]
+    funcoes = [n.name for n in ast.walk(
+        arvore) if isinstance(n, ast.FunctionDef)]
 
     return funcoes
+
 
 nome_do_arquivo = "biblioteca.py"
 funcoes = listar_funcoes(nome_do_arquivo)
