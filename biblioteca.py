@@ -4,28 +4,6 @@ import ast
 import inspect
 
 
-# auxiliar no debugging com listas de elementos executaveis
-def select_iten(lista, title="chose an element of list: "):
-    print(title)
-    for i, e in enumerate(lista):
-        print(f"{i+1}- {e}")
-
-    while True:  # utilizei um tratamento de erro para evitar entradas indesejadas
-        chs = input(title)
-        try:
-            chs = int(chs)
-            if chs <= 0:
-                raise IndexError
-            iten = lista[chs-1]
-            break
-        except ValueError:
-            print("valor digitado nao é um numero")
-        except IndexError:
-            print("fora do index")
-
-    return iten
-
-
 def spliter(st, simbol, tipo, times=float('inf')):
     # ele recebe de entrad a string o simbulo e o tipo de slipter e a quantidade de vezes que que queres dividir ou recortar
 
