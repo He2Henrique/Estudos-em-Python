@@ -2,6 +2,7 @@
 import re
 import ast
 import inspect
+from manipulando_listas import *
 
 
 def spliter(st, simbol, tipo, times=float('inf')):
