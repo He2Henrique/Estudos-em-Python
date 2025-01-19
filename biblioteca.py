@@ -6,7 +6,7 @@ from manipulando_listas import *
 
 
 def spliter(st, simbol, tipo, times=float('inf')):
-    # ele recebe de entrad a string o simbulo e o tipo de slipter e a quantidade de vezes que que queres dividir ou recortar
+    # ele recebe de entrada a string, o simbulo e o tipo de slipter e a quantidade de vezes que que queres dividir ou recortar
 
     if tipo == "divide":
         return st.split(simbol, times)
@@ -31,29 +31,35 @@ def spliter(st, simbol, tipo, times=float('inf')):
         return lista
 
 
-def isAnagram(self, s, t):
+def isAnagram(s, t):
     """
     :type s: str
     :type t: str
     :rtype: bool
     """
-    # o desafio se trata diser se duas strings sao um anagrama ou nao
-    if len(s) != len(t):  # logo de primeira se nao for do mesmo tamanho ja pode dizer que nao funciona
+
+    # o desafio se trata dizer se duas strings sao um anagrama ou nao
+    if len(s) != len(t):  # logo de primeira se as strings comparadas não possuirem o mesmo tamanho então não são anagramas
         return False
 
-    # cria uma lista de 26 zeros, o que siguinifica que ele ta pegando a diferença entre a ate z o as letras do alfabet..
+    # cria uma lista de 26 zeros, o que siguinifica que ele marca a diferença entre "a" ate "z"
     freq = [0] * 26
 
-    for i in range(len(s)):  # define de 0 ate 7, entao nao precisa definir o ponto de ininico no for, se for passado qualquer valor ele vai de 0 ate o valor
-        # aqui vai pegar a posicao da letra no alfabeto e marcar com posivo nos dizendo que a letra esta presente na string
+    for i in range(len(s)):
+        # seleciona o caracter na string e tranforma em seu respectivo valor na tabela ascii
+        # e subtrai do valor da tabela ascii a valor de "a" para saber a posição do caracter na lista
         freq[ord(s[i]) - ord('a')] += 1
-        # no caso como aqui e um desafio de saber se e um anagrama ou nao ele vai pegar a outra string e marca com negativo para que os dados se anulem indicando que a string tem as mesmas letras so que em ordens deiferentes
+        # ao marcar a posição a segunda string tambem ira marcar a posição na lista porem com valor inverso
+        # as marcações iram se anular se ambas forem iguais.
         freq[ord(t[i]) - ord('a')] -= 1
+
+        # agora voce pode se pergutar porque não utilizar map o motivo é que o codigo ficaria muito mais ilegivel e grande.
 
     for i in range(len(freq)):
         if freq[i] != 0:
             return False
-
+        # tambem seria possivel usar a função sum mas pense comigo o quanto enviavel seria isso. a função sum deve passar por todos os elementos.
+        #  ja a sintaxe que atribui ao encontrar o primeiro elemento que nao seja zero siguinifica que a um caracter divergente portanto não é um anagrama.
     return True
 
 
