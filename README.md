@@ -1,8 +1,8 @@
 # Repositorio para armazenar algoritmos e features que aprendi
 
 - estruturas de dados, algoritmos e resoluções de leetcode...
-- data structes, algoritms and leetcode's resolutions...
+- data structures, algorithms and leetcode resolutions...
 
 ## Linguagens utilizadas até o momento 
-### (Languages used util now)
+### (Languages used until now)
 - python
